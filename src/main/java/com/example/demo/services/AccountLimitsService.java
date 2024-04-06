@@ -32,32 +32,25 @@ public class AccountLimitsService {
                                         @Valid final ExpenseCategory category,
                                         @Valid final BigDecimal newLimit) {
 
-        AccountLimits accountLimits = findByAccountNumber(accountNumber);
+        AccountLimits accountLimits = findByAccountNumberAndCategory(accountNumber, category);
 
-        switch (category) {
-            case PRODUCT:
-                accountLimits.setProductsLimitDatetime(Calendar.getInstance());
-                accountLimits.setProductsLimitBalance(accountLimits
-                    .getProductsLimitBalance()
-                    .subtract(accountLimits.getProductsLimit())
-                    .add(newLimit));
-                accountLimits.setProductsLimit(newLimit);
-                return objectMapper.accountLimitsToAccountLimitsDto(accountLimitsRepository.save(accountLimits));
-            case SERVICE:
-                accountLimits.setServicesLimitDatetime(Calendar.getInstance());
-                accountLimits.setServicesLimitBalance(accountLimits
-                    .getServicesLimitBalance()
-                    .subtract(accountLimits.getServicesLimit())
-                    .add(newLimit));
-                accountLimits.setServicesLimit(newLimit);
-                return objectMapper.accountLimitsToAccountLimitsDto(accountLimitsRepository.save(accountLimits));
-            default:
-                throw new IllegalStateException("Unexpected value: " + category);
-        }
+        accountLimits.setLimitDatetime(Calendar.getInstance());
+        accountLimits.setLimitBalance(accountLimits
+            .getLimitBalance()
+            .subtract(accountLimits.getLimit())
+            .add(newLimit));
+        accountLimits.setLimit(newLimit);
+        return objectMapper.accountLimitsToAccountLimitsDto(accountLimitsRepository.save(accountLimits));
+
     }
 
-    public AccountLimits findByAccountNumber(final Long accountNumber) {
+    public AccountLimits findByAccountNumberAndCategory(final Long accountNumber, final ExpenseCategory category) {
 
-        return accountLimitsRepository.findAccountLimitsByAccount(accountNumber).orElseThrow();
+        return switch (category) {
+            case PRODUCT ->
+                accountLimitsRepository.findAccountLimitsByAccountAndExpenseCategoryProduct(accountNumber).orElseThrow();
+            case SERVICE ->
+                accountLimitsRepository.findAccountLimitsByAccountAndExpenseCategoryService(accountNumber).orElseThrow();
+        };
     }
 }

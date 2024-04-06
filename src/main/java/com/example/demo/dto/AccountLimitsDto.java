@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.example.demo.enums.ExpenseCategory;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
@@ -9,9 +10,6 @@ import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
-
-import static com.example.demo.config.Constants.DEFAULT_PRODUCTS_LIMIT_VALUE;
-import static com.example.demo.config.Constants.DEFAULT_SERVICES_LIMIT_VALUE;
 
 /**
  * DTO-класс для ограничений по категориям расходов аккаунта
@@ -28,22 +26,17 @@ public class AccountLimitsDto {
     @Range(min = 1L, max = 9_999_999_999L)
     private Long account;
 
-    @NotEmpty(message = "Required field")
-    private Calendar limitDatetime;
+    @NotEmpty(message = "Required limitExpense")
+    private ExpenseCategory limitExpense;
+
+    @NotEmpty(message = "Required LimitDatetime")
+    private Calendar LimitDatetime;
 
     @DecimalMin(value = "0.00", inclusive = false)
     @Digits(integer = 9, fraction = 2)
-    private BigDecimal productsLimit = DEFAULT_PRODUCTS_LIMIT_VALUE;
+    private BigDecimal limit;
 
     @DecimalMin(value = "0.00", inclusive = false)
     @Digits(integer = 9, fraction = 2)
-    private BigDecimal productsLimitBalance;
-
-    @DecimalMin(value = "0.00", inclusive = false)
-    @Digits(integer = 9, fraction = 2)
-    private BigDecimal servicesLimit = DEFAULT_SERVICES_LIMIT_VALUE;
-
-    @DecimalMin(value = "0.00", inclusive = false)
-    @Digits(integer = 9, fraction = 2)
-    private BigDecimal servicesLimitBalance;
+    private BigDecimal limitBalance;
 }

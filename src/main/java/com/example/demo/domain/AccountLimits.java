@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import com.example.demo.enums.ExpenseCategory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -26,21 +27,15 @@ public class AccountLimits extends GenericModel {
     @Column(name = "account", nullable = false)
     private Long account;
 
-    @Column(name = "products_limit_datetime", nullable = false)
-    private Calendar productsLimitDatetime;
+    @Column(name = "limit_expense", nullable = false)
+    private ExpenseCategory limitExpense;
 
-    @Column(name = "products_limit", nullable = false)
-    private BigDecimal productsLimit;
+    @Column(name = "limit_datetime", nullable = false)
+    private Calendar LimitDatetime;
 
-    @Column(name = "products_limit_balance", nullable = false)
-    private BigDecimal productsLimitBalance;
+    @Column(name = "limit", nullable = false)
+    private BigDecimal limit;
 
-    @Column(name = "services_limit_datetime", nullable = false)
-    private Calendar servicesLimitDatetime;
-
-    @Column(name = "services_limit", nullable = false)
-    private BigDecimal servicesLimit;
-
-    @Column(name = "services_limit_balance", nullable = false)
-    private BigDecimal servicesLimitBalance;
+    @Column(name = "limit_balance", nullable = false)
+    private BigDecimal limitBalance;
 }

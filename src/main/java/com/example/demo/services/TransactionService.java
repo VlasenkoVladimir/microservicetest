@@ -37,28 +37,19 @@ public class TransactionService {
 
     public TransactionDto processTransaction(@Valid final TransactionDto transactionDto) {
 
-        AccountLimits accountLimits = accountLimitsService.findByAccountNumber(transactionDto.getAccountFrom());
         ExpenseCategory category = ExpenseCategory.valueOf(transactionDto.getExpenseCategory());
+        AccountLimits accountLimits = accountLimitsService.
+            findByAccountNumberAndCategory(transactionDto.getAccountFrom(), category);
         CurrencyValue currencyValue = currencyTableCache.getCurrentExchangeRate(transactionDto.getCurrencyShortname());
-        BigDecimal sumEqualsUsd = getSumEqualsDefaultCurrency(transactionDto, currencyValue);
+        BigDecimal sumEqualsDefaultCurrency = getSumEqualsDefaultCurrency(transactionDto, currencyValue);
 
-        switch (category) {
-            case PRODUCT:
-                transactionDto.setLimitSum(accountLimits.getProductsLimit());
-                transactionDto.setLimitDatetime(accountLimits.getProductsLimitDatetime());
-                transactionDto.setCurrencyShortname(DEFAULT_LIMIT_CURRENCY);
-                BigDecimal newProductsLimitBalance = accountLimits.getProductsLimitBalance().subtract(sumEqualsUsd);
-                if (newProductsLimitBalance.compareTo(BigDecimal.ZERO) < 0) {
-                    transactionDto.setLimitExceeded(true);
-                }
-            case SERVICE:
-                transactionDto.setLimitSum(accountLimits.getServicesLimit());
-                transactionDto.setLimitDatetime(accountLimits.getServicesLimitDatetime());
-                transactionDto.setCurrencyShortname(DEFAULT_LIMIT_CURRENCY);
-                BigDecimal newServicesLimitBalance = accountLimits.getServicesLimitBalance().subtract(sumEqualsUsd);
-                if (newServicesLimitBalance.compareTo(BigDecimal.ZERO) < 0) {
-                    transactionDto.setLimitExceeded(true);
-                }
+        transactionDto.setLimitSum(accountLimits.getLimit());
+        transactionDto.setLimitDatetime(accountLimits.getLimitDatetime());
+        transactionDto.setCurrencyShortname(DEFAULT_LIMIT_CURRENCY);
+        BigDecimal newLimitBalance = accountLimits.getLimitBalance().subtract(sumEqualsDefaultCurrency);
+
+        if (newLimitBalance.compareTo(BigDecimal.ZERO) < 0) {
+            transactionDto.setLimitExceeded(true);
         }
 
         return objectMapper.transactionToTransactionDto(transactionRepository.save(

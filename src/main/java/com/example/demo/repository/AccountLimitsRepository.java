@@ -13,5 +13,7 @@ import java.util.Optional;
 @Repository
 public interface AccountLimitsRepository extends JpaRepository<AccountLimits, Long> {
 
-    Optional<AccountLimits> findAccountLimitsByAccount(Long account);
+    Optional<AccountLimits> findAccountLimitsByAccountAndExpenseCategoryProduct(Long account);
+
+    Optional<AccountLimits> findAccountLimitsByAccountAndExpenseCategoryService(Long account);
 }
