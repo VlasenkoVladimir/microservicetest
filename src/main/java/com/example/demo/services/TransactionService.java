@@ -6,7 +6,7 @@ import com.example.demo.dto.TransactionDto;
 import com.example.demo.enums.ExpenseCategory;
 import com.example.demo.mappers.ObjectMapper;
 import com.example.demo.repository.TransactionRepository;
-import com.example.demo.utils.CurrencyTableCache;
+import com.example.demo.utils.CurrencyCacheService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class TransactionService {
 
     protected final TransactionRepository transactionRepository;
     protected final AccountLimitService accountLimitService;
-    protected final CurrencyTableCache currencyTableCache;
+    protected final CurrencyCacheService currencyCacheService;
 
     private final ObjectMapper objectMapper;
 
@@ -40,7 +40,7 @@ public class TransactionService {
         ExpenseCategory category = ExpenseCategory.valueOf(transactionDto.getExpenseCategory());
         AccountLimit accountLimit = accountLimitService.
             findByAccountNumberAndCategory(transactionDto.getAccountFrom(), category);
-        CurrencyValue currencyValue = currencyTableCache.getCurrentExchangeRate(transactionDto.getCurrencyShortname());
+        CurrencyValue currencyValue = currencyCacheService.getCurrentExchangeRate(transactionDto.getCurrencyShortname());
         BigDecimal sumEqualsDefaultCurrency = getSumEqualsDefaultCurrency(transactionDto, currencyValue);
 
         transactionDto.setLimitSum(accountLimit.getLimit());
@@ -63,7 +63,7 @@ public class TransactionService {
             .collect(Collectors.toList());
     }
 
-    private static BigDecimal getSumEqualsDefaultCurrency(TransactionDto transactionDto, CurrencyValue currencyValue) {
+    private static BigDecimal getSumEqualsDefaultCurrency(final TransactionDto transactionDto, final CurrencyValue currencyValue) {
 
         BigDecimal sumEqualsDefaultCurrency;
 

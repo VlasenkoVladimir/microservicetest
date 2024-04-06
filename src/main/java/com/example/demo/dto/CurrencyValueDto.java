@@ -5,7 +5,10 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -17,12 +20,11 @@ import java.util.Calendar;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrencyValueDto {
 
-    @NotBlank(message = "Required field")
+    @NotBlank(message = "Required currency symbol")
     private String symbol;
 
     @DecimalMin(value = "0.00", inclusive = false)
@@ -33,6 +35,6 @@ public class CurrencyValueDto {
     @Digits(integer = 16, fraction = 2)
     private BigDecimal previousClose;
 
-    @NotEmpty(message = "Required field")
+    @NotEmpty(message = "Required datetime")
     private Calendar datetime;
 }

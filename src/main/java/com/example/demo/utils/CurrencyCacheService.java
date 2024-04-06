@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 @Getter
 @AllArgsConstructor
-public class CurrencyTableCache {
+public class CurrencyCacheService {
 
     private static final ConcurrentHashMap<String, CurrencyValue> currencyCache = new ConcurrentHashMap<>();
 
