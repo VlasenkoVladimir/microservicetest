@@ -35,7 +35,7 @@ public class TransactionService {
 
     private final ObjectMapper objectMapper;
 
-    public TransactionDto createTransaction(@Valid final TransactionDto transactionDto) {
+    public TransactionDto processTransaction(@Valid final TransactionDto transactionDto) {
 
         AccountLimits accountLimits = accountLimitsService.findByAccountNumber(transactionDto.getAccountFrom());
         ExpenseCategory category = ExpenseCategory.valueOf(transactionDto.getExpenseCategory());

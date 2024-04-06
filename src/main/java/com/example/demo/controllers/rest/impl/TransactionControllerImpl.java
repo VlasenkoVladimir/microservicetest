@@ -27,7 +27,7 @@ public class TransactionControllerImpl implements TransactionController {
     @Override
     public ResponseEntity<TransactionDto> createTransaction(TransactionDto transactionDto) {
 
-        return new ResponseEntity<>(transactionService.createTransaction(transactionDto), CREATED);
+        return new ResponseEntity<>(transactionService.processTransaction(transactionDto), CREATED);
     }
 
     @Override
