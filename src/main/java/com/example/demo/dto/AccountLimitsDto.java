@@ -27,7 +27,7 @@ public class AccountLimitsDto {
     private Long account;
 
     @NotEmpty(message = "Required limitExpense")
-    private ExpenseCategory limitExpense;
+    private ExpenseCategory ExpenseCategory;
 
     @NotEmpty(message = "Required LimitDatetime")
     private Calendar LimitDatetime;

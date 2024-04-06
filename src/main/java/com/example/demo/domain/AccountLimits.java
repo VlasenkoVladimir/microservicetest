@@ -28,7 +28,7 @@ public class AccountLimits extends GenericModel {
     private Long account;
 
     @Column(name = "limit_expense", nullable = false)
-    private ExpenseCategory limitExpense;
+    private ExpenseCategory ExpenseCategory;
 
     @Column(name = "limit_datetime", nullable = false)
     private Calendar LimitDatetime;
