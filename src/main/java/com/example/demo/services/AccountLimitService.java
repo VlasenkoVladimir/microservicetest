@@ -1,7 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.domain.AccountLimits;
-import com.example.demo.dto.AccountLimitsDto;
+import com.example.demo.domain.AccountLimit;
+import com.example.demo.dto.AccountLimitDto;
 import com.example.demo.enums.ExpenseCategory;
 import com.example.demo.mappers.ObjectMapper;
 import com.example.demo.repository.AccountLimitsRepository;
@@ -22,29 +22,29 @@ import java.util.Calendar;
 @Validated
 @Service
 @RequiredArgsConstructor
-public class AccountLimitsService {
+public class AccountLimitService {
 
     protected final AccountLimitsRepository accountLimitsRepository;
 
     private final ObjectMapper objectMapper;
 
-    public AccountLimitsDto setNewLimit(@Valid final Long accountNumber,
-                                        @Valid final ExpenseCategory category,
-                                        @Valid final BigDecimal newLimit) {
+    public AccountLimitDto setNewLimit(@Valid final Long accountNumber,
+                                       @Valid final ExpenseCategory category,
+                                       @Valid final BigDecimal newLimit) {
 
-        AccountLimits accountLimits = findByAccountNumberAndCategory(accountNumber, category);
+        AccountLimit accountLimit = findByAccountNumberAndCategory(accountNumber, category);
 
-        accountLimits.setLimitDatetime(Calendar.getInstance());
-        accountLimits.setLimitBalance(accountLimits
+        accountLimit.setLimitDatetime(Calendar.getInstance());
+        accountLimit.setLimitBalance(accountLimit
             .getLimitBalance()
-            .subtract(accountLimits.getLimit())
+            .subtract(accountLimit.getLimit())
             .add(newLimit));
-        accountLimits.setLimit(newLimit);
-        return objectMapper.accountLimitsToAccountLimitsDto(accountLimitsRepository.save(accountLimits));
+        accountLimit.setLimit(newLimit);
+        return objectMapper.accountLimitsToAccountLimitsDto(accountLimitsRepository.save(accountLimit));
 
     }
 
-    public AccountLimits findByAccountNumberAndCategory(final Long accountNumber, final ExpenseCategory category) {
+    public AccountLimit findByAccountNumberAndCategory(final Long accountNumber, final ExpenseCategory category) {
 
         return switch (category) {
             case PRODUCT ->

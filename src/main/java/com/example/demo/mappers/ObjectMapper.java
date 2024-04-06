@@ -1,10 +1,10 @@
 package com.example.demo.mappers;
 
 
-import com.example.demo.domain.AccountLimits;
+import com.example.demo.domain.AccountLimit;
 import com.example.demo.domain.CurrencyValue;
 import com.example.demo.domain.Transaction;
-import com.example.demo.dto.AccountLimitsDto;
+import com.example.demo.dto.AccountLimitDto;
 import com.example.demo.dto.CurrencyValueDto;
 import com.example.demo.dto.TransactionDto;
 import org.mapstruct.BeanMapping;
@@ -20,20 +20,20 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 @Mapper(componentModel = "spring")
 public abstract class ObjectMapper {
 
-	public abstract CurrencyValue currencyValueDtoToCurrencyValue(CurrencyValueDto currencyValueDto);
+    public abstract CurrencyValue currencyValueDtoToCurrencyValue(CurrencyValueDto currencyValueDto);
 
-	public abstract CurrencyValueDto currencyValueToCurrencyValueDto(CurrencyValue currencyValue);
+    public abstract CurrencyValueDto currencyValueToCurrencyValueDto(CurrencyValue currencyValue);
 
-	@BeanMapping(nullValuePropertyMappingStrategy = IGNORE)
-	public abstract void updateCurrencyValueFromCurrencyValueDto(CurrencyValueDto currencyValueDto,
-																 @MappingTarget CurrencyValue currencyValue);
+    @BeanMapping(nullValuePropertyMappingStrategy = IGNORE)
+    public abstract void updateCurrencyValueFromCurrencyValueDto(CurrencyValueDto currencyValueDto,
+                                                                 @MappingTarget CurrencyValue currencyValue);
 
-	public abstract Transaction transactionDtoToTransaction(TransactionDto transactionDto);
+    public abstract Transaction transactionDtoToTransaction(TransactionDto transactionDto);
 
-	public abstract TransactionDto transactionToTransactionDto(Transaction transaction);
+    public abstract TransactionDto transactionToTransactionDto(Transaction transaction);
 
 
-	public abstract AccountLimits accountLimitsDtoToAccountLimits(AccountLimitsDto accountLimitsDto);
+    public abstract AccountLimit accountLimitsDtoToAccountLimits(AccountLimitDto accountLimitDto);
 
-	public abstract AccountLimitsDto accountLimitsToAccountLimitsDto(AccountLimits accountLimits);
+    public abstract AccountLimitDto accountLimitsToAccountLimitsDto(AccountLimit accountLimit);
 }

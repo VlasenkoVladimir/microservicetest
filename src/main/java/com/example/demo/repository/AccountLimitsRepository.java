@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.domain.AccountLimits;
+import com.example.demo.domain.AccountLimit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,9 +11,9 @@ import java.util.Optional;
  */
 
 @Repository
-public interface AccountLimitsRepository extends JpaRepository<AccountLimits, Long> {
+public interface AccountLimitsRepository extends JpaRepository<AccountLimit, Long> {
 
-    Optional<AccountLimits> findAccountLimitsByAccountAndExpenseCategoryProduct(Long account);
+    Optional<AccountLimit> findAccountLimitsByAccountAndExpenseCategoryProduct(Long account);
 
-    Optional<AccountLimits> findAccountLimitsByAccountAndExpenseCategoryService(Long account);
+    Optional<AccountLimit> findAccountLimitsByAccountAndExpenseCategoryService(Long account);
 }

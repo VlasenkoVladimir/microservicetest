@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.domain.AccountLimits;
+import com.example.demo.domain.AccountLimit;
 import com.example.demo.domain.CurrencyValue;
 import com.example.demo.dto.TransactionDto;
 import com.example.demo.enums.ExpenseCategory;
@@ -30,7 +30,7 @@ import static com.example.demo.config.Constants.DEFAULT_LIMIT_CURRENCY;
 public class TransactionService {
 
     protected final TransactionRepository transactionRepository;
-    protected final AccountLimitsService accountLimitsService;
+    protected final AccountLimitService accountLimitService;
     protected final CurrencyTableCache currencyTableCache;
 
     private final ObjectMapper objectMapper;
@@ -38,15 +38,15 @@ public class TransactionService {
     public TransactionDto processTransaction(@Valid final TransactionDto transactionDto) {
 
         ExpenseCategory category = ExpenseCategory.valueOf(transactionDto.getExpenseCategory());
-        AccountLimits accountLimits = accountLimitsService.
+        AccountLimit accountLimit = accountLimitService.
             findByAccountNumberAndCategory(transactionDto.getAccountFrom(), category);
         CurrencyValue currencyValue = currencyTableCache.getCurrentExchangeRate(transactionDto.getCurrencyShortname());
         BigDecimal sumEqualsDefaultCurrency = getSumEqualsDefaultCurrency(transactionDto, currencyValue);
 
-        transactionDto.setLimitSum(accountLimits.getLimit());
-        transactionDto.setLimitDatetime(accountLimits.getLimitDatetime());
+        transactionDto.setLimitSum(accountLimit.getLimit());
+        transactionDto.setLimitDatetime(accountLimit.getLimitDatetime());
         transactionDto.setCurrencyShortname(DEFAULT_LIMIT_CURRENCY);
-        BigDecimal newLimitBalance = accountLimits.getLimitBalance().subtract(sumEqualsDefaultCurrency);
+        BigDecimal newLimitBalance = accountLimit.getLimitBalance().subtract(sumEqualsDefaultCurrency);
 
         if (newLimitBalance.compareTo(BigDecimal.ZERO) < 0) {
             transactionDto.setLimitExceeded(true);

@@ -22,16 +22,16 @@ import java.util.Calendar;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AccountLimits extends GenericModel {
+public class AccountLimit extends GenericModel {
 
     @Column(name = "account", nullable = false)
     private Long account;
 
-    @Column(name = "limit_expense", nullable = false)
-    private ExpenseCategory ExpenseCategory;
+    @Column(name = "expense_category", nullable = false)
+    private ExpenseCategory expenseCategory;
 
     @Column(name = "limit_datetime", nullable = false)
-    private Calendar LimitDatetime;
+    private Calendar limitDatetime;
 
     @Column(name = "limit", nullable = false)
     private BigDecimal limit;

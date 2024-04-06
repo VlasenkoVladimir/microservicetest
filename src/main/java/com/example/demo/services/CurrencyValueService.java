@@ -1,8 +1,6 @@
 package com.example.demo.services;
 
 import com.example.demo.dto.CurrencyValueDto;
-import com.example.demo.repository.CurrencyValueRepository;
-import com.example.demo.utils.CurrencyTableCache;
 import com.example.demo.utils.ExchangeApiClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +21,6 @@ import static com.example.demo.config.Constants.DEFAULT_LIMIT_CURRENCY;
 @Service
 @RequiredArgsConstructor
 public class CurrencyValueService {
-
-    private final CurrencyTableCache cache;
-
-    private final CurrencyValueRepository currencyRepository;
 
     private final ExchangeApiClient exchangeApiClient;
 
