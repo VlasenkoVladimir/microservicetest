@@ -1,3 +1,5 @@
 spring:
   application:
     name: demo
+crontab:
+  interval-in-cron: "0 0 0 1 1/1 ? *"

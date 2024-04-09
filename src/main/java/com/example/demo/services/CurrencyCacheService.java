@@ -1,8 +1,7 @@
-package com.example.demo.utils;
+package com.example.demo.services;
 
 import com.example.demo.domain.CurrencyValue;
 import com.example.demo.mappers.ObjectMapper;
-import com.example.demo.services.CurrencyValueService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;

@@ -6,7 +6,6 @@ import com.example.demo.dto.TransactionDto;
 import com.example.demo.enums.ExpenseCategory;
 import com.example.demo.mappers.ObjectMapper;
 import com.example.demo.repository.TransactionRepository;
-import com.example.demo.utils.CurrencyCacheService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
