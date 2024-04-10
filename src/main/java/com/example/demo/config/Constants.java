@@ -23,5 +23,6 @@ public class Constants {
 
     public static final String DEFAULT_EXCHANGE_PRODUCER_PATH = "/quote";
 
-    public static final String DEFAULT_EXCHANGE_PRODUCER_KEY = "&apikey=c158428409ae436fa03c4091f95e65c1";
+    public static final String DEFAULT_EXCHANGE_PRODUCER_KEY = "&apikey=" + "${twelvedata.apikey}";
+
 }
