@@ -33,8 +33,10 @@ public class AccountLimitService {
                                        @Valid final BigDecimal newLimit) {
 
         AccountLimit accountLimit = findByAccountNumberAndCategory(accountNumber, category);
+        Calendar calendar = Calendar.getInstance();
 
-        accountLimit.setLimitDatetime(Calendar.getInstance());
+        accountLimit.setLimitDatetime(calendar);
+        accountLimit.setMonthOfBalance(calendar.get(Calendar.MONTH));
         accountLimit.setLimitBalance(accountLimit
             .getLimitBalance()
             .subtract(accountLimit.getLimit())

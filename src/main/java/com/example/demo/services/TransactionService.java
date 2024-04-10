@@ -45,7 +45,7 @@ public class TransactionService {
         transactionDto.setLimitSum(accountLimit.getLimit());
         transactionDto.setLimitDatetime(accountLimit.getLimitDatetime());
         transactionDto.setCurrencyShortname(DEFAULT_LIMIT_CURRENCY);
-        BigDecimal newLimitBalance = accountLimit.getLimitBalance().subtract(sumEqualsDefaultCurrency);
+        BigDecimal newLimitBalance = accountLimit.getLimitForActualMonth().subtract(sumEqualsDefaultCurrency);
 
         if (newLimitBalance.compareTo(BigDecimal.ZERO) < 0) {
             transactionDto.setLimitExceeded(true);

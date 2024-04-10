@@ -1,10 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.enums.ExpenseCategory;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,4 +38,8 @@ public class AccountLimitDto {
     @DecimalMin(value = "0.00", inclusive = false)
     @Digits(integer = 9, fraction = 2)
     private BigDecimal limitBalance;
+
+    @Min(value = 1, message = "Required number of month, min = 1")
+    @Max(value = 12, message = "Required number of month, max = 12")
+    private Integer monthOfBalance;
 }

@@ -38,4 +38,16 @@ public class AccountLimit extends GenericModel {
 
     @Column(name = "limit_balance", nullable = false)
     private BigDecimal limitBalance;
+
+    @Column(name = "month_of_balance", nullable = false)
+    private Integer monthOfBalance;
+
+    public BigDecimal getLimitForActualMonth() {
+
+        if (Calendar.getInstance().get(Calendar.MONTH) == monthOfBalance) {
+            return limitBalance;
+        } else {
+            return limitBalance = limit;
+        }
+    }
 }
