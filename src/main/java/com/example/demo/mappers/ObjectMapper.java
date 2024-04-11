@@ -33,7 +33,7 @@ public abstract class ObjectMapper {
     public abstract TransactionDto transactionToTransactionDto(Transaction transaction);
 
 
-    public abstract AccountLimit accountLimitsDtoToAccountLimits(AccountLimitDto accountLimitDto);
+    public abstract AccountLimit accountLimitDtoToAccountLimit(AccountLimitDto accountLimitDto);
 
-    public abstract AccountLimitDto accountLimitsToAccountLimitsDto(AccountLimit accountLimit);
+    public abstract AccountLimitDto accountLimitToAccountLimitDto(AccountLimit accountLimit);
 }

@@ -14,6 +14,8 @@ import org.springframework.validation.annotation.Validated;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+import static com.example.demo.config.Constants.DEFAULT_ACCOUNT_LIMIT_VALUE;
+
 /**
  * Сервис для AccountLimits
  */
@@ -28,21 +30,25 @@ public class AccountLimitService {
 
     private final ObjectMapper objectMapper;
 
-    public AccountLimitDto setNewLimit(@Valid final Long accountNumber,
-                                       @Valid final ExpenseCategory category,
-                                       @Valid final BigDecimal newLimit) {
+    public AccountLimitDto setNewLimit(@Valid final AccountLimitDto accountLimitDto) {
 
+        Long accountNumber = accountLimitDto.getAccount();
+        ExpenseCategory category = accountLimitDto.getExpenseCategory();
+        BigDecimal newLimit = accountLimitDto.getLimit();
         AccountLimit accountLimit = findByAccountNumberAndCategory(accountNumber, category);
         Calendar calendar = Calendar.getInstance();
 
         accountLimit.setLimitDatetime(calendar);
         accountLimit.setMonthOfBalance(calendar.get(Calendar.MONTH));
-        accountLimit.setLimitBalance(accountLimit
-            .getLimitBalance()
-            .subtract(accountLimit.getLimit())
-            .add(newLimit));
+
+        if (newLimit.equals(BigDecimal.ZERO)) {
+            newLimit = DEFAULT_ACCOUNT_LIMIT_VALUE;
+        }
+
+        accountLimit.setLimitBalance(accountLimit.getLimitBalance().subtract(accountLimit.getLimit()).add(newLimit));
         accountLimit.setLimit(newLimit);
-        return objectMapper.accountLimitsToAccountLimitsDto(accountLimitsRepository.save(accountLimit));
+
+        return objectMapper.accountLimitToAccountLimitDto(accountLimitsRepository.save(accountLimit));
 
     }
 

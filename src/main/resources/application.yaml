@@ -1,7 +1,12 @@
 spring:
   application:
     name: demo
-crontab:
-  interval-in-cron: "0 0 0 1 1/1 ? *"
+
 twelvedata:
   apikey: "c158428409ae436fa03c4091f95e65c1"
+
+account:
+  limit:
+    defaultvalue: 1000L
+  limitcurrency:
+    defaultvalue: "USD"
