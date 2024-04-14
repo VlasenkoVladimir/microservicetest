@@ -1,15 +1,14 @@
 package com.example.demo.dto;
 
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 /**
  * DTO-класс для транзакций
@@ -22,29 +21,29 @@ import java.util.Calendar;
 @ToString
 public class TransactionDto {
 
-    @Range(min =1L, max = 9_999_999_999L)
+    @Range(min = 1L, max = 9_999_999_999L, message = "Please provide an account number in range 1L - 9_999_999_999L")
     private Long accountFrom;
 
-    @Range(min =1L, max = 9_999_999_999L)
+    @Range(min = 1L, max = 9_999_999_999L, message = "Please provide an account number in range 1L - 9_999_999_999L")
     private Long accountTo;
 
-    @NotBlank(message = "Please provide a Currency Shortname")
+    @Size(min = 3, max = 3, message = "Please provide a Currency Shortname")
     private String currencyShortname;
 
-    @NotBlank(message = "Please provide a sum")
+    @Digits(integer = 16, fraction = 2, message = "Please provide a sum of transaction with round to 2 digits")
     private BigDecimal sum;
 
     @NotBlank(message = "Please provide an Expense Category")
     private String expenseCategory;
 
-    @NotBlank(message = "Required field")
-    private Calendar datetime;
+    @NotBlank(message = "Required field in ZonedDateTime format")
+    private ZonedDateTime datetime;
 
     private Boolean limitExceeded;
 
     private BigDecimal limitSum;
 
-    private Calendar limitDatetime;
+    private ZonedDateTime limitDatetime;
 
     private String limitCurrencyShortname;
 }

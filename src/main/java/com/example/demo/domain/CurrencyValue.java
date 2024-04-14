@@ -3,13 +3,12 @@ package com.example.demo.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 /**
  * Курс валюты
@@ -18,7 +17,6 @@ import java.util.Calendar;
 @Entity
 @Table(name = "currencies")
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public class CurrencyValue extends GenericModel {
@@ -33,5 +31,5 @@ public class CurrencyValue extends GenericModel {
     private BigDecimal previousClose;
 
     @Column(name = "datetime", nullable = false)
-    private Calendar datetime;
+    private ZonedDateTime datetime;
 }

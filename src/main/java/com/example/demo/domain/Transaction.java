@@ -6,13 +6,12 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 /**
  * Сущность транзакции
@@ -21,7 +20,6 @@ import java.util.Calendar;
 @Entity
 @Table(name = "transactions")
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public class Transaction extends GenericModel {
@@ -42,7 +40,7 @@ public class Transaction extends GenericModel {
     private String expenseCategory;
 
     @Column(name = "datetime", nullable = false)
-    private Calendar datetime;
+    private ZonedDateTime  datetime;
 
     @Column(name = "limit_exceeded", nullable = false)
     private Boolean limitExceeded;
@@ -53,7 +51,7 @@ public class Transaction extends GenericModel {
     private BigDecimal limitSum;
 
     @Column(name = "limit_datetime", nullable = false)
-    private Calendar limitDatetime;
+    private ZonedDateTime limitDatetime;
 
     @Column(name = "limit_currency_shortname")
     @NotBlank

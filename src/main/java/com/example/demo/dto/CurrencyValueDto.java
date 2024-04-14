@@ -11,7 +11,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 /**
  * DTO-класс для валют
@@ -36,5 +36,5 @@ public class CurrencyValueDto {
     private BigDecimal previousClose;
 
     @NotEmpty(message = "Required datetime")
-    private Calendar datetime;
+    private ZonedDateTime datetime;
 }

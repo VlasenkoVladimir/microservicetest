@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 import static com.example.demo.config.Constants.DEFAULT_ACCOUNT_LIMIT_VALUE;
 
@@ -32,21 +32,22 @@ public class AccountLimitService {
 
     public AccountLimitDto setNewLimit(@Valid final AccountLimitDto accountLimitDto) {
 
-        Long accountNumber = accountLimitDto.getAccount();
-        ExpenseCategory category = accountLimitDto.getExpenseCategory();
-        BigDecimal newLimit = accountLimitDto.getLimit();
-        AccountLimit accountLimit = findByAccountNumberAndCategory(accountNumber, category);
-        Calendar calendar = Calendar.getInstance();
+        log.info("#setNewLimit with AccountLimitDto: {} at service layer", accountLimitDto);
 
-        accountLimit.setLimitDatetime(calendar);
-        accountLimit.setMonthOfBalance(calendar.get(Calendar.MONTH));
+        BigDecimal newLimit = accountLimitDto.getLimit();
+        AccountLimit accountLimit = findByAccountNumberAndCategory(accountLimitDto.getAccount(), accountLimitDto.getExpenseCategory());
+        ZonedDateTime dateTime = ZonedDateTime.now();
+
+        accountLimit.setLimitDatetime(dateTime);
+        accountLimit.setMonthOfBalance(dateTime.getMonthValue());
 
         if (newLimit.equals(BigDecimal.ZERO)) {
             newLimit = DEFAULT_ACCOUNT_LIMIT_VALUE;
+        } else {
+            accountLimit.setLimit(newLimit);
         }
 
-        accountLimit.setLimitBalance(accountLimit.getLimitBalance().subtract(accountLimit.getLimit()).add(newLimit));
-        accountLimit.setLimit(newLimit);
+        accountLimit.setLimitBalance(getLimitForActualMonth(accountLimit).subtract(accountLimit.getLimit()).add(newLimit));
 
         return objectMapper.accountLimitToAccountLimitDto(accountLimitsRepository.save(accountLimit));
 
@@ -54,11 +55,24 @@ public class AccountLimitService {
 
     public AccountLimit findByAccountNumberAndCategory(final Long accountNumber, final ExpenseCategory category) {
 
+        log.error("Error in #findByAccountNumberAndCategory with accountNumber: {} and ExpenseCategory: {} at service layer", accountNumber, category);
+
         return switch (category) {
             case PRODUCT ->
                 accountLimitsRepository.findAccountLimitsByAccountAndExpenseCategoryProduct(accountNumber).orElseThrow();
             case SERVICE ->
                 accountLimitsRepository.findAccountLimitsByAccountAndExpenseCategoryService(accountNumber).orElseThrow();
         };
+    }
+
+    public BigDecimal getLimitForActualMonth(AccountLimit accountLimit) {
+
+        log.error("Error in #getLimitForActualMonth with AccountLimit: {} at service layer", accountLimit);
+
+        if (ZonedDateTime.now().getMonthValue() != accountLimit.getMonthOfBalance()) {
+            accountLimit.setLimitBalance(accountLimit.getLimit());
+        }
+
+        return accountLimit.getLimitBalance();
     }
 }

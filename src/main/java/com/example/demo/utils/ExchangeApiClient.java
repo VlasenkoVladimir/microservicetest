@@ -1,6 +1,6 @@
 package com.example.demo.utils;
 
-import com.example.demo.dto.CurrencyValueDto;
+import com.example.demo.domain.CurrencyValue;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,5 +16,5 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public interface ExchangeApiClient {
 
     @RequestMapping(method = GET, value = "/", consumes = APPLICATION_JSON_VALUE)
-    CurrencyValueDto getExchangeRate(@RequestParam("symbol") final String symbol);
+    CurrencyValue getExchangeRate(@RequestParam("symbol") final String symbol);
 }

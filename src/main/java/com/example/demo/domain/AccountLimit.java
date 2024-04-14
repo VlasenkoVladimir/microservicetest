@@ -4,13 +4,12 @@ import com.example.demo.enums.ExpenseCategory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 /**
  * Сущность для хранения ограничений расходов по категориям для аккаунта
@@ -19,7 +18,6 @@ import java.util.Calendar;
 @Entity
 @Table(name = "account_limits")
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public class AccountLimit extends GenericModel {
@@ -31,7 +29,7 @@ public class AccountLimit extends GenericModel {
     private ExpenseCategory expenseCategory;
 
     @Column(name = "limit_datetime", nullable = false)
-    private Calendar limitDatetime;
+    private ZonedDateTime limitDatetime;
 
     @Column(name = "limit", nullable = false)
     private BigDecimal limit;
@@ -41,13 +39,4 @@ public class AccountLimit extends GenericModel {
 
     @Column(name = "month_of_balance", nullable = false)
     private Integer monthOfBalance;
-
-    public BigDecimal getLimitForActualMonth() {
-
-        if (Calendar.getInstance().get(Calendar.MONTH) == monthOfBalance) {
-            return limitBalance;
-        } else {
-            return limitBalance = limit;
-        }
-    }
 }

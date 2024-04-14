@@ -2,19 +2,22 @@ package com.example.demo.services;
 
 import com.example.demo.domain.CurrencyValue;
 import com.example.demo.mappers.ObjectMapper;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Вспомогательный сервис для хранения текущих кэшей курсов валют
  */
 
+@Slf4j
 @Service
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CurrencyCacheService {
 
     private static final ConcurrentHashMap<String, CurrencyValue> currencyCache = new ConcurrentHashMap<>();
@@ -24,15 +27,17 @@ public class CurrencyCacheService {
 
     public CurrencyValue getCurrentExchangeRate(final String currency) {
 
-        CurrencyValue currencyValue;
+        log.info("#getCurrentExchangeRate request of currency: {} at service layer", currency);
 
-        if (currencyCache.containsKey(currency)) {
-            currencyValue = currencyCache.get(currency);
+        CurrencyValue result;
+
+        if (currencyCache.containsKey(currency) & currencyCache.get(currency).getDatetime().getDayOfMonth() == ZonedDateTime.now().getDayOfMonth()) {
+            result = currencyCache.get(currency);
         } else {
-            currencyValue = objectMapper.currencyValueDtoToCurrencyValue(currencyValueService.getTodayCurrencyValue(currency));
-            currencyCache.put(currency, currencyValue);
+            result = currencyValueService.getTodayCurrencyValue(currency);
+            currencyCache.put(currency, result);
         }
 
-        return currencyValue;
+        return result;
     }
 }

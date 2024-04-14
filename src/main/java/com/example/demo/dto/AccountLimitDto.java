@@ -9,7 +9,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 /**
  * DTO-класс для ограничений по категориям расходов аккаунта
@@ -28,11 +28,11 @@ public class AccountLimitDto {
     @NotEmpty(message = "Required limitExpense")
     private ExpenseCategory expenseCategory;
 
-    @NotEmpty(message = "Required LimitDatetime")
-    private Calendar limitDatetime;
+    @NotEmpty(message = "Required LimitDatetime in ZonedDateTime format")
+    private ZonedDateTime limitDatetime;
 
     @DecimalMin(value = "0.00", inclusive = false)
-    @Digits(integer = 9, fraction = 2)
+    @Digits(integer = 9, fraction = 2, message = "Please provide a limit in BigDecimal with round to 2 digits")
     private BigDecimal limit;
 
     @DecimalMin(value = "0.00", inclusive = false)
