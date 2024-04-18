@@ -33,7 +33,12 @@ public interface TransactionController extends BaseController {
 
     @Operation(summary = "Сохранение и обогащение транзакции в БД")
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Запись сохранена")})
-    @RequestMapping(value = "/createTransaction", method = POST, consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        value = "/createTransaction",
+        method = POST,
+        consumes = APPLICATION_JSON_VALUE,
+        produces = APPLICATION_JSON_VALUE
+    )
     ResponseEntity<TransactionDto> processTransaction(@RequestBody @Valid final TransactionDto transactionDto);
 
     @Operation(summary = "Получение списка транзакций превысивших лимит по идентификатору аккаунта")
